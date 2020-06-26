@@ -131,9 +131,9 @@ if (!empty($_REQUEST['confirm'])) {
 			}
 			$DB->query("
 				INSERT INTO users_info
-					(UserID, StyleID, AuthKey, Inviter, JoinDate, AdminComment)
+					(UserID, StyleID, AuthKey, Inviter, JoinDate, AdminComment, Info)
 				VALUES
-					('$UserID', '$StyleID', '".db_string($AuthKey)."', '$InviterID', '".sqltime()."', '$InviteReason')");
+					('$UserID', '$StyleID', '".db_string($AuthKey)."', '$InviterID', '".sqltime()."', '$InviteReason', '')");
 
 			$DB->query("
 				INSERT INTO users_history_ips
@@ -151,7 +151,7 @@ if (!empty($_REQUEST['confirm'])) {
 				INSERT INTO users_history_emails
 					(UserID, Email, Time, IP)
 				VALUES
-					('$UserID', '".db_string($_REQUEST['email'])."', '0000-00-00 00:00:00', '".db_string($_SERVER['REMOTE_ADDR'])."')");
+					('$UserID', '".db_string($_REQUEST['email'])."', '1000-01-01 00:00:00', '".db_string($_SERVER['REMOTE_ADDR'])."')");
 
 			if ($_REQUEST['email'] != $InviteEmail) {
 				$DB->query("

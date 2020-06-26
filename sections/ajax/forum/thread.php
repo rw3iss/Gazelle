@@ -261,7 +261,7 @@ foreach ($Thread as $Key => $Post) {
 			'paranoia' => $Paranoia,
 			'artist' => $Artist === '1',
 			'donor' => $Donor === '1',
-			'warned' => $Warned !== '0000-00-00 00:00:00',
+			'warned' => $Warned !== '1000-01-01 00:00:00',
 			'avatar' => $Avatar,
 			'enabled' => $Enabled === '2' ? false : true,
 			'userTitle' => $UserTitle

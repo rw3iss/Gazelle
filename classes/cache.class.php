@@ -24,11 +24,11 @@ memcached -d -m 8192 -l 10.10.0.1 -t8 -C
 
 |*************************************************************************/
 
-if (!extension_loaded('memcache')) {
-	die('Memcache Extension not loaded.');
+if (!extension_loaded('memcached')) {
+	die('Memcached Extension not loaded.');
 }
 
-class CACHE extends Memcache {
+class CACHE extends Memcached {
 	/**
 	 * Torrent Group cache version
 	 */
@@ -390,5 +390,10 @@ class CACHE extends Memcache {
 			$Status["$Server[host]:$Server[port]"] = $this->getServerStatus($Server['host'], $Server['port']);
 		}
 		return $Status;
-	}
+    }
+    
+    private function getServerStatus($host, $port) {
+        return "todo";
+    }
+
 }

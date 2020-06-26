@@ -63,7 +63,7 @@ if (isset($_REQUEST['act']) && $_REQUEST['act'] == 'recover') {
 						SET
 							m.PassHash = '".db_string(Users::make_crypt_hash($_REQUEST['password']))."',
 							i.ResetKey = '',
-							i.ResetExpires = '0000-00-00 00:00:00'
+							i.ResetExpires = '1000-01-01 00:00:00'
 						WHERE m.ID = '$UserID'
 							AND i.UserID = m.ID");
 					$DB->query("
@@ -91,7 +91,7 @@ if (isset($_REQUEST['act']) && $_REQUEST['act'] == 'recover') {
 				$DB->query("
 					UPDATE users_info
 					SET ResetKey = '',
-						ResetExpires = '0000-00-00 00:00:00'
+						ResetExpires = '1000-01-01 00:00:00'
 					WHERE UserID = '$UserID'");
 				$_SESSION['reseterr'] = 'The link you were given has expired.'; // Error message to display on form
 			}
@@ -226,7 +226,7 @@ else {
 					SET
 						LastAttempt = '".sqltime()."',
 						Attempts = '".db_string($Attempts)."',
-						BannedUntil = '0000-00-00 00:00:00'
+						BannedUntil = '1000-01-01 00:00:00'
 					WHERE ID = '".db_string($AttemptID)."'");
 			}
 		} else { // User has not attempted to log in recently

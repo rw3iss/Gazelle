@@ -5,27 +5,27 @@ if (PHP_VERSION_ID < 50400) {
 date_default_timezone_set('UTC');
 
 // Main settings
-define('SITE_NAME', ''); //The name of your site
-define('NONSSL_SITE_URL', ''); //The FQDN of your site
-define('SSL_SITE_URL', ''); //The FQDN of your site, make this different if you are using a subdomain for ssl
-define('SITE_IP', ''); //The IP address by which your site can be publicly accessed
-define('SERVER_ROOT', '/path'); //The root of the server, used for includes, purpose is to shorten the path string
-define('ANNOUNCE_URL', 'http://'.NONSSL_SITE_URL.':2710'); //Announce URL
+define('SITE_NAME', 'Gazelle test'); //The name of your site
+define('NONSSL_SITE_URL', 'localhost'); //The FQDN of your site
+define('SSL_SITE_URL', 'localhost'); //The FQDN of your site, make this different if you are using a subdomain for ssl
+define('SITE_IP', '10.0.0.2'); //The IP address by which your site can be publicly accessed
+define('SERVER_ROOT', '/Users/rw3iss/Sites/Gazelle/'); //The root of the server, used for includes, purpose is to shorten the path string
+define('ANNOUNCE_URL', 'http://'.NONSSL_SITE_URL.':34000'); //Announce URL
 
 // Allows you to run static content off another server. Default is usually what you want.
 define('NONSSL_STATIC_SERVER', 'static/');
 define('SSL_STATIC_SERVER', 'static/');
 
 // Keys
-define('ENCKEY', ''); //Random key. The key for encryption
-define('SITE_SALT', ''); //Random key. Default site wide salt for passwords, DO NOT LEAVE THIS BLANK/CHANGE AFTER LAUNCH!
-define('SCHEDULE_KEY', ''); // Random key. This key must be the argument to schedule.php for the schedule to work.
-define('RSS_HASH', ''); //Random key. Used for generating unique RSS auth key.
+define('ENCKEY', '@()IDJ)J#)(J)j2J90J29J0$@#3FJOI4'); //Random key. The key for encryption
+define('SITE_SALT', ''IJWIUJ@#(8U298JRDJ#(JD2J20J2D); //Random key. Default site wide salt for passwords, DO NOT LEAVE THIS BLANK/CHANGE AFTER LAUNCH!
+define('SCHEDULE_KEY', 'EIUNFIR()@J)D'); // Random key. This key must be the argument to schedule.php for the schedule to work.
+define('RSS_HASH', 'iUEFHIU#()JF)#J'); //Random key. Used for generating unique RSS auth key.
 
 // MySQL details
 define('SQLHOST', 'localhost'); //The MySQL host ip/fqdn
-define('SQLLOGIN', '');//The MySQL login
-define('SQLPASS', ''); //The MySQL password
+define('SQLLOGIN', 'root');//The MySQL login
+define('SQLPASS', 'root'); //The MySQL password
 define('SQLDB', 'gazelle'); //The MySQL database to use
 define('SQLPORT', 3306); //The MySQL port to connect on
 define('SQLSOCK', '/var/run/mysqld/mysqld.sock');
@@ -47,9 +47,9 @@ define('SPHINX_INDEX', 'torrents');
 
 // Ocelot details
 define('TRACKER_HOST', 'localhost');
-define('TRACKER_PORT', 2710);
-define('TRACKER_SECRET', ''); // Must be 32 characters and match site_password in Ocelot's config.cpp
-define('TRACKER_REPORTKEY', ''); // Must be 32 characters and match report_password in Ocelot's config.cpp
+define('TRACKER_PORT', 34000);
+define('TRACKER_SECRET', '12345678qwertyui901234567asdfghjk'); // Must be 32 characters and match site_password in Ocelot's config.cpp
+define('TRACKER_REPORTKEY', ''12345678qwertyui901234567asdfghjk'); // Must be 32 characters and match report_password in Ocelot's config.cpp
 
 if (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 80) {
 	define('SITE_URL', NONSSL_SITE_URL);

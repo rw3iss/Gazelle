@@ -317,7 +317,7 @@ class Misc {
 			'AddedTime' => sqltime(),
 			'Body' => $PostBody,
 			'EditedUserID' => 0,
-			'EditedTime' => '0000-00-00 00:00:00',
+			'EditedTime' => '1000-01-01 00:00:00',
 			'Username' => ''
 			);
 		G::$Cache->insert('', $Post);

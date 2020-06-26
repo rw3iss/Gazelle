@@ -123,7 +123,7 @@ if (!$NoPoll) { // god, I hate double negatives...
 			(TopicID, Question, Answers)
 		VALUES
 			('$TopicID', '".db_string($Question)."', '".db_string(serialize($Answers))."')");
-	$Cache->cache_value("polls_$TopicID", array($Question, $Answers, $Votes, '0000-00-00 00:00:00', '0'), 0);
+	$Cache->cache_value("polls_$TopicID", array($Question, $Answers, $Votes, '1000-01-01 00:00:00', '0'), 0);
 
 	if ($ForumID == STAFF_FORUM) {
 		send_irc('PRIVMSG '.ADMIN_CHAN.' :!mod Poll created by '.$LoggedUser['Username'].": \"$Question\" ".site_url()."forums.php?action=viewthread&threadid=$TopicID");
@@ -188,7 +188,7 @@ $Post = array(
 	'AddedTime' => sqltime(),
 	'Body' => $Body,
 	'EditedUserID' => 0,
-	'EditedTime' => '0000-00-00 00:00:00'
+	'EditedTime' => '1000-01-01 00:00:00'
 	);
 $Cache->insert('', $Post);
 $Cache->commit_transaction(0);

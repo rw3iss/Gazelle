@@ -303,7 +303,7 @@ if ($Hour != $NextHour || $_GET['runhour'] || isset($argv[2])) {
 				FROM users_main
 					JOIN users_info ON users_main.ID = users_info.UserID
 				WHERE PermissionID = ".$L['From']."
-					AND Warned = '0000-00-00 00:00:00'
+					AND Warned = '1000-01-01 00:00:00'
 					AND Uploaded >= '$L[MinUpload]'
 					AND (Uploaded / Downloaded >= '$L[MinRatio]' OR (Uploaded / Downloaded IS NULL))
 					AND JoinDate < '$L[MaxTime]'
@@ -423,7 +423,7 @@ if ($Hour != $NextHour || $_GET['runhour'] || isset($argv[2])) {
 		UPDATE requests
 		SET Visible = 0
 		WHERE TimeFilled < (NOW() - INTERVAL 7 DAY)
-			AND TimeFilled != '0000-00-00 00:00:00'");
+			AND TimeFilled != '1000-01-01 00:00:00'");
 
 	//------------- Remove dead peers ---------------------------------------//
 	sleep(3);
@@ -471,13 +471,13 @@ if ($Hour != $NextHour || $_GET['runhour'] || isset($argv[2])) {
 		WHERE Warned < '$sqltime'");
 	while (list($UserID) = $DB->next_record()) {
 		$Cache->begin_transaction("user_info_$UserID");
-		$Cache->update_row(false, array('Warned' => '0000-00-00 00:00:00'));
+		$Cache->update_row(false, array('Warned' => '1000-01-01 00:00:00'));
 		$Cache->commit_transaction(2592000);
 	}
 
 	$DB->query("
 		UPDATE users_info
-		SET Warned = '0000-00-00 00:00:00'
+		SET Warned = '1000-01-01 00:00:00'
 		WHERE Warned < '$sqltime'");
 
 	// If a user has downloaded more than 10 GiBs while on ratio watch, disable leeching privileges, and send the user a message
@@ -486,7 +486,7 @@ if ($Hour != $NextHour || $_GET['runhour'] || isset($argv[2])) {
 		SELECT ID, torrent_pass
 		FROM users_info AS i
 			JOIN users_main AS m ON m.ID = i.UserID
-		WHERE i.RatioWatchEnds != '0000-00-00 00:00:00'
+		WHERE i.RatioWatchEnds != '1000-01-01 00:00:00'
 			AND i.RatioWatchDownload + 10 * 1024 * 1024 * 1024 < m.Downloaded
 			AND m.Enabled = '1'
 			AND m.can_leech = '1'");
@@ -648,7 +648,7 @@ if (!$NoDaily && $Day != $NextDay || $_GET['runday']) {
 			FROM users_info AS i
 				JOIN users_main AS m ON m.ID = i.UserID
 			WHERE m.Uploaded/m.Downloaded >= m.RequiredRatio
-				AND i.RatioWatchEnds != '0000-00-00 00:00:00'
+				AND i.RatioWatchEnds != '1000-01-01 00:00:00'
 				AND m.can_leech = '0'
 				AND m.Enabled = '1'");
 	$OffRatioWatch = $DB->collect('ID');
@@ -656,7 +656,7 @@ if (!$NoDaily && $Day != $NextDay || $_GET['runday']) {
 		$DB->query("
 			UPDATE users_info AS ui
 				JOIN users_main AS um ON um.ID = ui.UserID
-			SET ui.RatioWatchEnds = '0000-00-00 00:00:00',
+			SET ui.RatioWatchEnds = '1000-01-01 00:00:00',
 				ui.RatioWatchDownload = '0',
 				um.can_leech = '1',
 				ui.AdminComment = CONCAT('$sqltime - Leeching re-enabled by adequate ratio.\n\n', ui.AdminComment)
@@ -665,7 +665,7 @@ if (!$NoDaily && $Day != $NextDay || $_GET['runday']) {
 
 	foreach ($OffRatioWatch as $UserID) {
 		$Cache->begin_transaction("user_info_heavy_$UserID");
-		$Cache->update_row(false, array('RatioWatchEnds' => '0000-00-00 00:00:00', 'RatioWatchDownload' => '0', 'CanLeech' => 1));
+		$Cache->update_row(false, array('RatioWatchEnds' => '1000-01-01 00:00:00', 'RatioWatchDownload' => '0', 'CanLeech' => 1));
 		$Cache->commit_transaction(0);
 		Misc::send_pm($UserID, 0, 'You have been taken off Ratio Watch', "Congratulations! Feel free to begin downloading again.\n To ensure that you do not get put on ratio watch again, please read the rules located [url=".site_url()."rules.php?p=ratio]here[/url].\n");
 		echo "Ratio watch off: $UserID\n";
@@ -682,14 +682,14 @@ if (!$NoDaily && $Day != $NextDay || $_GET['runday']) {
 				FROM users_info AS i
 					JOIN users_main AS m ON m.ID = i.UserID
 				WHERE m.Uploaded / m.Downloaded >= m.RequiredRatio
-					AND i.RatioWatchEnds != '0000-00-00 00:00:00'
+					AND i.RatioWatchEnds != '1000-01-01 00:00:00'
 					AND m.Enabled = '1'");
 	$OffRatioWatch = $DB->collect('ID');
 	if (count($OffRatioWatch) > 0) {
 		$DB->query("
 			UPDATE users_info AS ui
 				JOIN users_main AS um ON um.ID = ui.UserID
-			SET ui.RatioWatchEnds = '0000-00-00 00:00:00',
+			SET ui.RatioWatchEnds = '1000-01-01 00:00:00',
 				ui.RatioWatchDownload = '0',
 				um.can_leech = '1'
 			WHERE ui.UserID IN(".implode(',', $OffRatioWatch).')');
@@ -697,7 +697,7 @@ if (!$NoDaily && $Day != $NextDay || $_GET['runday']) {
 
 	foreach ($OffRatioWatch as $UserID) {
 		$Cache->begin_transaction("user_info_heavy_$UserID");
-		$Cache->update_row(false, array('RatioWatchEnds' => '0000-00-00 00:00:00', 'RatioWatchDownload' => '0', 'CanLeech' => 1));
+		$Cache->update_row(false, array('RatioWatchEnds' => '1000-01-01 00:00:00', 'RatioWatchDownload' => '0', 'CanLeech' => 1));
 		$Cache->commit_transaction(0);
 		Misc::send_pm($UserID, 0, "You have been taken off Ratio Watch", "Congratulations! Feel free to begin downloading again.\n To ensure that you do not get put on ratio watch again, please read the rules located [url=".site_url()."rules.php?p=ratio]here[/url].\n");
 		echo "Ratio watch off: $UserID\n";
@@ -715,7 +715,7 @@ if (!$NoDaily && $Day != $NextDay || $_GET['runday']) {
 		FROM users_info AS i
 			JOIN users_main AS m ON m.ID = i.UserID
 		WHERE m.Uploaded / m.Downloaded < m.RequiredRatio
-			AND i.RatioWatchEnds = '0000-00-00 00:00:00'
+			AND i.RatioWatchEnds = '1000-01-01 00:00:00'
 			AND m.Enabled = '1'
 			AND m.can_leech = '1'");
 	$OnRatioWatch = $DB->collect('ID');
@@ -772,7 +772,7 @@ if (!$NoDaily && $Day != $NextDay || $_GET['runday']) {
 			SELECT ID, torrent_pass
 			FROM users_info AS i
 				JOIN users_main AS m ON m.ID = i.UserID
-			WHERE i.RatioWatchEnds != '0000-00-00 00:00:00'
+			WHERE i.RatioWatchEnds != '1000-01-01 00:00:00'
 				AND i.RatioWatchEnds < '$sqltime'
 				AND m.Enabled = '1'
 				AND m.can_leech != '0'");
@@ -818,7 +818,7 @@ if (!$NoDaily && $Day != $NextDay || $_GET['runday']) {
 		WHERE um.PermissionID IN ('".USER."', '".MEMBER	."')
 			AND um.LastAccess < '".time_minus(3600 * 24 * 110, true)."'
 			AND um.LastAccess > '".time_minus(3600 * 24 * 111, true)."'
-			AND um.LastAccess != '0000-00-00 00:00:00'
+			AND um.LastAccess != '1000-01-01 00:00:00'
 			AND ui.Donor = '0'
 			AND um.Enabled != '2'
 			AND ul.UserID IS NULL
@@ -835,7 +835,7 @@ if (!$NoDaily && $Day != $NextDay || $_GET['runday']) {
 			LEFT JOIN users_levels AS ul ON ul.UserID = um.ID AND ul.PermissionID = '".CELEB."'
 		WHERE um.PermissionID IN ('".USER."', '".MEMBER	."')
 			AND um.LastAccess < '".time_minus(3600 * 24 * 30 * 4)."'
-			AND um.LastAccess != '0000-00-00 00:00:00'
+			AND um.LastAccess != '1000-01-01 00:00:00'
 			AND ui.Donor = '0'
 			AND um.Enabled != '2'
 			AND ul.UserID IS NULL
@@ -851,7 +851,7 @@ if (!$NoDaily && $Day != $NextDay || $_GET['runday']) {
 		SELECT UserID
 		FROM users_info AS ui
 			JOIN users_main AS um ON um.ID = ui.UserID
-		WHERE um.LastAccess = '0000-00-00 00:00:00'
+		WHERE um.LastAccess = '1000-01-01 00:00:00'
 			AND ui.JoinDate < '".time_minus(60 * 60 * 24 * 7)."'
 			AND um.Enabled != '2'");
 	$UserIDs = $DB->collect('UserID');
@@ -864,7 +864,7 @@ if (!$NoDaily && $Day != $NextDay || $_GET['runday']) {
 			ui.BanDate = '$sqltime',
 			ui.BanReason = '3',
 			ui.AdminComment = CONCAT('$sqltime - Disabled for inactivity (never logged in)\n\n', ui.AdminComment)
-		WHERE um.LastAccess = '0000-00-00 00:00:00'
+		WHERE um.LastAccess = '1000-01-01 00:00:00'
 			AND ui.JoinDate < '".time_minus(60 * 60 * 24 * 7)."'
 			AND um.Enabled != '2'");
 	$Cache->decrement('stats_user_count', $DB->affected_rows());

@@ -11,7 +11,7 @@ if (!check_perms('users_mod')) {
 	if (time() - strtotime($LastReseedRequest) < 864000) {
 		error('There was already a re-seed request for this torrent within the past 10 days.');
 	}
-	if ($LastActive == '0000-00-00 00:00:00' || time() - strtotime($LastActive) < 345678) {
+	if ($LastActive == '1000-01-01 00:00:00' || time() - strtotime($LastActive) < 345678) {
 		error(403);
 	}
 }

@@ -84,7 +84,7 @@ class Users {
 						'Paranoia' => array(),
 						'Artist' => false,
 						'Donor' => false,
-						'Warned' => '0000-00-00 00:00:00',
+						'Warned' => '1000-01-01 00:00:00',
 						'Avatar' => '',
 						'Enabled' => 0,
 						'Title' => '',
@@ -122,7 +122,7 @@ class Users {
 			G::$DB->set_query_id($OldQueryID);
 		}
 		if (strtotime($UserInfo['Warned']) < time()) {
-			$UserInfo['Warned'] = '0000-00-00 00:00:00';
+			$UserInfo['Warned'] = '1000-01-01 00:00:00';
 			G::$Cache->cache_value("user_info_$UserID", $UserInfo, 2592000);
 		}
 
@@ -415,8 +415,10 @@ class Users {
 	 * @param $Str string to hash
 	 * @return salted crypt hash
 	 */
-	public static function make_crypt_hash($Str) {
-		$Salt = CRYPT_HASH_PREFIX.Users::gen_crypt_salt().'$';
+	public static function make_crypt_hash($Str, $Salt=null) {
+        if (!$Salt) {
+            $Salt = CRYPT_HASH_PREFIX.Users::gen_crypt_salt().'$';
+        }
 		return crypt($Str, $Salt);
 	}
 
@@ -537,7 +539,7 @@ class Users {
 			}
 		}
 
-		$Str .= ($IsWarned && $UserInfo['Warned'] != '0000-00-00 00:00:00') ? '<a href="wiki.php?action=article&amp;id=218"'
+		$Str .= ($IsWarned && $UserInfo['Warned'] != '1000-01-01 00:00:00') ? '<a href="wiki.php?action=article&amp;id=218"'
 					. '><img src="'.STATIC_SERVER.'common/symbols/warned.png" alt="Warned" title="Warned'
 					. (G::$LoggedUser['ID'] === $UserID ? ' - Expires ' . date('Y-m-d H:i', strtotime($UserInfo['Warned'])) : '')
 					. '" class="tooltip" /></a>' : '';

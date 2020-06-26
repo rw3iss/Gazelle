@@ -76,7 +76,7 @@ $RS = $DB->query("
 					DATE_FORMAT(JoinDate, '%Y-%m-%d') AS Date,
 					COUNT(UserID) AS Flow
 				FROM users_info
-				WHERE JoinDate != '0000-00-00 00:00:00'
+				WHERE JoinDate != '1000-01-01 00:00:00'
 				GROUP BY Date
 			) AS j
 			LEFT JOIN (
@@ -84,7 +84,7 @@ $RS = $DB->query("
 					DATE_FORMAT(BanDate, '%Y-%m-%d') AS Date,
 					COUNT(UserID) AS Flow
 				FROM users_info
-				WHERE BanDate != '0000-00-00 00:00:00'
+				WHERE BanDate != '1000-01-01 00:00:00'
 					AND BanReason = '1'
 				GROUP BY Date
 			) AS m ON j.Date = m.Date
@@ -93,7 +93,7 @@ $RS = $DB->query("
 					DATE_FORMAT(BanDate, '%Y-%m-%d') AS Date,
 					COUNT(UserID) AS Flow
 				FROM users_info
-				WHERE BanDate != '0000-00-00 00:00:00'
+				WHERE BanDate != '1000-01-01 00:00:00'
 					AND BanReason = '2'
 				GROUP BY Date
 			) AS r ON j.Date = r.Date
@@ -102,7 +102,7 @@ $RS = $DB->query("
 					DATE_FORMAT(BanDate, '%Y-%m-%d') AS Date,
 					COUNT(UserID) AS Flow
 				FROM users_info
-				WHERE BanDate != '0000-00-00 00:00:00'
+				WHERE BanDate != '1000-01-01 00:00:00'
 					AND BanReason = '3'
 				GROUP BY Date
 			) AS i ON j.Date = i.Date

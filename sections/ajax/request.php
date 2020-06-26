@@ -96,7 +96,7 @@ foreach ($Thread as $Key => $Post) {
 		'authorId' => (int)$AuthorID,
 		'name' => $Username,
 		'donor' => $Donor == 1,
-		'warned' => ($Warned != '0000-00-00 00:00:00'),
+		'warned' => ($Warned != '1000-01-01 00:00:00'),
 		'enabled' => ($Enabled == 2 ? false : true),
 		'class' => Users::make_class_string($PermissionID),
 		'addedTime' => $AddedTime,

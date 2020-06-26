@@ -30,7 +30,8 @@ if (!empty($_GET['e']) && in_array($_GET['e'],$Errors)) {
 			break;
 		case '-1':
 			$Title = "Invalid request";
-			$Description = "Something was wrong with your request, and the server is refusing to fulfill it.";
+            $Description = "Something was wrong with your request, and the server is refusing to fulfill it.";
+            debug_print_backtrace();
 			break;
 		default:
 			if (!empty($Error)) {

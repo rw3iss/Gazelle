@@ -285,7 +285,7 @@ if ($Avatar && Users::has_avatars_enabled()) {
 				<li<?=($Override === 2 ? ' class="paranoia_override"' : '')?>><a href="userhistory.php?action=token_history&amp;userid=<?=$UserID?>">Tokens</a>: <?=number_format($FLTokens)?></li>
 <?
 	}
-	if (($OwnProfile || check_perms('users_mod')) && $Warned != '0000-00-00 00:00:00') {
+	if (($OwnProfile || check_perms('users_mod')) && $Warned != '1000-01-01 00:00:00') {
 ?>
 				<li<?=($Override === 2 ? ' class="paranoia_override"' : '')?>>Warning expires in: <?=time_diff((date('Y-m-d H:i', strtotime($Warned))))?></li>
 <?	} ?>
@@ -580,7 +580,7 @@ DonationsView::render_donor_stats($UserID);
 	</div>
 	<div class="main_column">
 <?
-if ($RatioWatchEnds != '0000-00-00 00:00:00'
+if ($RatioWatchEnds != '1000-01-01 00:00:00'
 		&& (time() < strtotime($RatioWatchEnds))
 		&& ($Downloaded * $RequiredRatio) > $Uploaded
 		) {
@@ -1188,10 +1188,10 @@ if (check_perms('users_mod', $Class)) { ?>
 			<tr>
 				<td class="label">Warned:</td>
 				<td>
-					<input type="checkbox" name="Warned"<? if ($Warned != '0000-00-00 00:00:00') { ?> checked="checked"<? } ?> />
+					<input type="checkbox" name="Warned"<? if ($Warned != '1000-01-01 00:00:00') { ?> checked="checked"<? } ?> />
 				</td>
 			</tr>
-<?		if ($Warned == '0000-00-00 00:00:00') { // user is not warned ?>
+<?		if ($Warned == '1000-01-01 00:00:00') { // user is not warned ?>
 			<tr>
 				<td class="label">Expiration:</td>
 				<td>

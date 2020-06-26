@@ -5,7 +5,7 @@ if (!extension_loaded('date')) {
 
 function time_ago($TimeStamp) {
 	if (!is_number($TimeStamp)) { // Assume that $TimeStamp is SQL timestamp
-		if ($TimeStamp == '0000-00-00 00:00:00') {
+		if ($TimeStamp == '1000-01-01 00:00:00') {
 			return false;
 		}
 		$TimeStamp = strtotime($TimeStamp);
@@ -24,7 +24,7 @@ function time_diff($TimeStamp, $Levels = 2, $Span = true, $Lowercase = false, $S
 	$StartTime = ($StartTime === false) ? time() : strtotime($StartTime);
 
 	if (!is_number($TimeStamp)) { // Assume that $TimeStamp is SQL timestamp
-		if ($TimeStamp == '0000-00-00 00:00:00') {
+		if ($TimeStamp == '1000-01-01 00:00:00') {
 			return 'Never';
 		}
 		$TimeStamp = strtotime($TimeStamp);

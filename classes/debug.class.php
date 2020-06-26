@@ -138,23 +138,29 @@ class DEBUG {
 		$LastKey = -1;
 		$Return = array();
 		foreach ($Array as $Key => $Val) {
-			$Return[$Key] = '';
-			if (!is_int($Key) || $Key != $LastKey + 1) {
+            $Return[$Key] = '';
+
+			if (!is_int($Key) ) {
 				$Return[$Key] .= "'$Key' => ";
-			}
-				if ($Val === true) {
-					$Return[$Key] .= 'true';
-				} elseif ($Val === false) {
-					$Return[$Key] .= 'false';
-				} elseif (is_string($Val)) {
-					$Return[$Key] .= "'$Val'";
-				} elseif (is_int($Val)) {
-					$Return[$Key] .= $Val;
-				} elseif (is_object($Val)) {
-					$Return[$Key] .= get_class($Val);
-				} elseif (is_array($Val)) {
-					$Return[$Key] .= 'array('.$this->format_args($Val).')';
-				}
+			} else if (is_int($LastKey)) {
+                if ($Key != $LastKey + 1) {
+				    $Return[$Key] .= "'$Key' => ";
+                }
+            }
+
+            if ($Val === true) {
+                $Return[$Key] .= 'true';
+            } elseif ($Val === false) {
+                $Return[$Key] .= 'false';
+            } elseif (is_string($Val)) {
+                $Return[$Key] .= "'$Val'";
+            } elseif (is_int($Val)) {
+                $Return[$Key] .= $Val;
+            } elseif (is_object($Val)) {
+                $Return[$Key] .= get_class($Val);
+            } elseif (is_array($Val)) {
+                $Return[$Key] .= 'array('.$this->format_args($Val).')';
+            }
 			$LastKey = $Key;
 		}
 		return implode(', ', $Return);
